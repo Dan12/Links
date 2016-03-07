@@ -15,23 +15,24 @@ class LinkController < ApplicationController
         if l.save
             tags = params[:tags].split(",")
             puts(tags)
-            tags.each {
-                |tag|
-                curTag = Tag.find_by(name: tag)
-                tl = Taglink.new
-                if curTag == nil
-                    t = Tag.new
-                    t.name = tag
-                    t.user_id = session[:user_id]
-                    t.save
-                    
-                    tl.tag_id = t.id
-                else
-                    tl.tag_id = curTag.id
+            tags.each do |tag|
+                if tag.gsub(" ","") != ""
+                    curTag = Tag.find_by(name: tag)
+                    tl = Taglink.new
+                    if curTag == nil
+                        t = Tag.new
+                        t.name = tag
+                        t.user_id = session[:user_id]
+                        t.save
+                        
+                        tl.tag_id = t.id
+                    else
+                        tl.tag_id = curTag.id
+                    end
+                    tl.link_id = l.id
+                    tl.save
                 end
-                tl.link_id = l.id
-                tl.save
-            }
+            end
         end
         
         redirect_to "/user/view/#{session[:user_id]}"
@@ -39,7 +40,7 @@ class LinkController < ApplicationController
     
     # tag index page
     def tags
-       @tags = Tag.where(user_id: session[:user_id])
+       @tags = User.find_by(id: session[:user_id]).tags
        render "index"
     end
     
@@ -75,26 +76,27 @@ class LinkController < ApplicationController
         tags = params[:tags].split(",")
         puts(tags)
         ret = [];
-        tags.each {
-            |tag|
-            curTag = Tag.find_by(name: tag)
-            tl = Taglink.new
-            if curTag == nil
-                t = Tag.new
-                t.name = tag
-                t.user_id = session[:user_id]
-                t.save
-                
-                tl.tag_id = t.id
-            else
-                tl.tag_id = curTag.id
+        tags.each do |tag|
+            if tag.gsub(" ","") != ""
+                curTag = Tag.find_by(name: tag)
+                tl = Taglink.new
+                if curTag == nil
+                    t = Tag.new
+                    t.name = tag
+                    t.user_id = session[:user_id]
+                    t.save
+                    
+                    tl.tag_id = t.id
+                else
+                    tl.tag_id = curTag.id
+                end
+                tl.link_id = Integer(params[:id])
+                if Taglink.find_by(tag_id: tl.tag_id, link_id: tl.link_id) == nil
+                    tl.save
+                    ret.push(Tag.find_by(id: tl.tag_id))
+                end
             end
-            tl.link_id = Integer(params[:id])
-            if Taglink.find_by(tag_id: tl.tag_id, link_id: tl.link_id) == nil
-                tl.save
-                ret.push(Tag.find_by(id: tl.tag_id))
-            end
-        } 
+        end
         render :json => {"data" => ret}
     end
     

@@ -106,7 +106,7 @@ function getSuggestions(){
     $.ajax({
         type: "POST",
         url: "/link/tag_suggestions/",
-        data: {partial_name: $("#tag_add_input").val(), authenticity_token: $("#auth_token").val()},
+        data: {partial_name: $("#tag_add_input").val().substring($("#tag_add_input").val().indexOf(",") == -1 ? 0 : $("#tag_add_input").val().lastIndexOf(",")+1,$("#tag_add_input").val().length), authenticity_token: $("#auth_token").val()},
         success: function(data, textStatus, jqXHR) {
             $(".suggestions").remove();
             $(".suggestions").off();
@@ -115,7 +115,15 @@ function getSuggestions(){
             }
             
             $(".suggestions").mousedown(function(){
-                addTag($(this).html());
+                if($("#link_tags").html() != null)
+                    addTag($(this).html());
+                else{
+                    var curVal = $("#tag_add_input").val();
+                    if(curVal.indexOf(",") == -1)
+                        $("#tag_add_input").val($(this).html());
+                    else
+                        $("#tag_add_input").val($("#tag_add_input").val().substring(0,$("#tag_add_input").val().lastIndexOf(",")+1)+$(this).html());
+                }
             });
             
             if(data.data.length > 0)
