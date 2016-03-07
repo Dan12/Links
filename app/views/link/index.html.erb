@@ -1,0 +1,12 @@
+<section>
+    <% @tags.each do |t| %>
+        <div class="tag_section" tag_name="<%= t.name %>">
+            <span><%= t.name %></span>
+            <div class="tag_section_links" id="<%= t.name %>_links">
+                <% t.links.each do |l| %>
+                    <a href="<%= l.url %>" target="_blank" title="<%= l.description %>"><%= l.title %></a>
+                <% end %>
+            </div>
+        </div>
+    <% end %>
+</section>

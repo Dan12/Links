@@ -1,0 +1,48 @@
+<section>
+    <h2>Edit Link</h2>
+    <div id="error_message">
+    <% if @error_message != nil%>
+        <%= @error_message %>
+    <% end %>
+    </div>
+    <form action="/link/update/<%= @link.id %>" method="post">
+        <div id="form_input">
+            <label>URL</label>
+            <input type="text" name="url" value="<%= @link.url %>" />
+        </div>
+        <div id="form_input">
+            <label>Title</label>
+            <input type="text" name="title" value="<%= @link.title %>" />
+        </div>
+        <div id="form_input">
+            <label>Description</label>
+            <input type="text" name="description" value="<%= @link.description %>" />
+        </div>
+        <div id="form_input">
+            <button>Update</button>
+        </div>
+        
+        <input type="hidden" id="auth_token" name="authenticity_token" value="<%= form_authenticity_token %>"></input>
+    </form>
+    
+    <div id="link_tags">
+        <div id="current_tags">
+            <span>Current Tags:</span>
+            <% @link.tags.each do |t| %>
+                <span class="current_tag" title="remove tag"><%= t.name %></span>
+            <% end %>
+        </div>
+        <div id="form_input">
+            <label>Add Tags</label>
+            <input type="text" name="tags" id="tag_add_input" autocomplete="off" />
+            <div id="tag_suggestions"></div>
+        </div>
+        <div id="form_input">
+            <button id="add_tags_button">Add Tags</button>
+        </div>
+    </div>
+    
+    <button id="delete_link"><a href="/link/destroy/<%= @link.id %>">Delete Link</a></button>
+    
+    <div id="link_num" style="display: none;"><%= @link.id %></div>
+</section>

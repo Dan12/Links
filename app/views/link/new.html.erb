@@ -1,0 +1,32 @@
+<section>
+    <h2>Create Link</h2>
+    <div id="error_message">
+    <% if @error_message != nil%>
+        <%= @error_message %>
+    <% end %>
+    </div>
+    <form action="/link/create" method="post">
+        <div id="form_input">
+            <label>URL</label>
+            <input type="text" name="url" />
+        </div>
+        <div id="form_input">
+            <label>Title</label>
+            <input type="text" name="title" />
+        </div>
+        <div id="form_input">
+            <label>Description</label>
+            <input type="text" name="description" />
+        </div>
+        <div id="form_input">
+            <label>Tags</label>
+            <input type="text" name="tags" id="tag_add_input" autocomplete="off" />
+            <div id="tag_suggestions"></div>
+        </div>
+        <div id="form_input">
+            <button>Create</button>
+        </div>
+        
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"></input>
+    </form>
+</section>

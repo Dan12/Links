@@ -1,0 +1,31 @@
+<section>
+    <h2>Sign Up</h2>
+    <div id="error_message">
+    <% if @error_message != nil%>
+        <%= @error_message %>
+    <% end %>
+    </div>
+    <form action="/user/create" method="post">
+        <div id="form_input">
+            <label>Username</label>
+            <input type="text" name="username" />
+        </div>
+        <div id="form_input">
+            <label>Email</label>
+            <input type="text" name="email" />
+        </div>
+        <div id="form_input">
+            <label>Password</label>
+            <input type="password" name="password" />
+        </div>
+        <div id="form_input">
+            <label>Confirm Password</label>
+            <input type="password" name="confirm_password" />
+        </div>
+        <div id="form_input">
+            <button>Sign Up</button>
+        </div>
+        
+        <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>"></input>
+    </form>
+</section>

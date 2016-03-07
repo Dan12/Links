@@ -1,0 +1,17 @@
+<section>
+    <h2><%= @user.name %></h2>
+    
+    <p><%= @user.email %></p>
+    
+    <div id = "edit_links">
+        <button><a href="/user/edit/<%= @user.id %>">Edit Profile</a></button>
+        <button><a href="/link/edit_index">Edit Links</a></button>
+    </div>
+    
+    <h3>Links</h3>
+    <div id="user_links">
+        <% @user.links.each do |l|%>
+            <a href="<%= l.url %>" target="_blank" title="<%= l.description %>"><%= l.title %></a>
+        <% end %>
+    </div>
+</section>

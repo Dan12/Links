@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Links</title>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= favicon_link_tag 'favicon.ico' %>
+  <%= csrf_meta_tags %>
+</head>
+<body>
+
+<header>
+  <h1><a href="/">Links</a></h1>
+</header>
+
+<nav>
+    <a href="/link/new">Create</a>
+    <a href="/link/tags">Tags</a>
+    <% if session[:user_id] == nil %>
+        <a href="/user/login_page">Log In</a>
+        <a href="/user/new">Sign Up</a>
+    <% else %>
+        <a href="/user/view/<%= User.find_by(id: session[:user_id]).id %>">Profile</a>
+        <a href="/user/logout">Sign Out</a>
+    <% end %>
+</nav>
+
+<%= yield %>
+
+<footer>
+  
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,8 @@
+<section>
+    <h2>Edit Links</h2>
+    <div id="user_links">
+        <% @links.each do |l| %>
+            <a href="/link/edit/<%= l.id %>" title="<%= l.description %>"><%= l.title %></a>
+        <% end %>
+    </div>
+</section>
